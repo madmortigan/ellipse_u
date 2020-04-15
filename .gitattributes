@@ -1,0 +1,12 @@
+* text=auto
+
+*.asset binary
+*.meta binary
+*.inputactions binary
+*.png binary
+*.jpg binary
+*.unity binary
+*.prefab binary
+*.fbx binary
+*.mat binary
+
