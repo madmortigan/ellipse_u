@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Trajectory : MonoBehaviour
 {
+    public Material mLineMaterial;
+
     private GameObject mParticle;
     public GameObject GetParticle() { return mParticle; }
     private LypsBoss mBoss;
@@ -16,7 +18,6 @@ public class Trajectory : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
     }
 
     // Update is called once per frame
@@ -40,6 +41,56 @@ public class Trajectory : MonoBehaviour
         mDelta = mBoss.GetTrajectoryDelta();
         mPhase = mBoss.GetPhase();
         mRadius = mBoss.GetTrajectoryRadius();
+
+        CreateMyLineRenderer();
+    }
+
+    public void ToggleTrajectoryDraw()
+    {
+        LineRenderer lineRen = gameObject.GetComponent<LineRenderer>();
+        if (lineRen == null)
+            return;
+        lineRen.enabled = !lineRen.enabled;
+    }
+
+
+    //Create a LineRenderer component to visualise the circular trajectory
+    private void CreateMyLineRenderer()
+    {
+        LineRenderer lren = GetComponent<LineRenderer>();
+        if (lren != null)
+            Destroy(lren);
+
+        if (mBoss.GetNumTrajectories() > 1000)
+            return;
+
+
+        gameObject.AddComponent<LineRenderer>();
+        lren = gameObject.GetComponent<LineRenderer>();
+        
+        Vector3[] pts = CreatePoints();
+        lren.positionCount = pts.Length;
+        lren.SetPositions(pts);
+        lren.useWorldSpace = false;
+        lren.loop = true;
+        
+        if (mLineMaterial != null)
+            lren.material = mLineMaterial;
+    }
+
+    private Vector3[] CreatePoints()
+    {
+        int npoints = 20;
+        Vector3[] pts = new Vector3[npoints];
+
+        float delta = 2f * Mathf.PI / npoints;
+        for(int i=0; i<npoints; ++i)
+        {
+            float t = i * delta;
+            Vector3 p = GetLocalPointFromCircleParam(mRadius, t);
+            pts[i] = p;
+        }
+        return pts;
     }
 
 

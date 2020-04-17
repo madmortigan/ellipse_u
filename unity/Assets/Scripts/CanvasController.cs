@@ -205,6 +205,11 @@ public class CanvasController : MonoBehaviour
         mGame.SetNextParticle();
     }
 
+    public void ToggleDrawTrajectoriesButtonHandler()
+    {
+        mGame.ToggleDrawTrajectories();
+    }
+
 
     // Right Panel
 

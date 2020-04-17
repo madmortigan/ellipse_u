@@ -153,4 +153,9 @@ public class EllipseGame : MonoBehaviour
         Reset();
     }
 
+    public void ToggleDrawTrajectories()
+    {
+        mBoss.ToggleTrajectoriesDraw();
+    }
+
 }

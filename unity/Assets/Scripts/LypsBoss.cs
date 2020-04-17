@@ -50,6 +50,8 @@ public class LypsBoss : MonoBehaviour
     private float mDelta = 0.2f;          //animaton speed
     private float GetDelta() { return mDelta; }
 
+    public int GetNumTrajectories() { return mNumberTrajectories; }
+
     private bool mPlay = true;      //play/pause flag; true if we're playing. 
     public bool TogglePlayPause()
     {
@@ -76,12 +78,19 @@ public class LypsBoss : MonoBehaviour
         UpdateParam();
     }
 
+    public void ToggleTrajectoriesDraw()
+    {
+        foreach (Trajectory trj in mTrajectories)
+            trj.ToggleTrajectoryDraw();
+    }
+
+
     void OnDestroy()
     {
         DestroyTrajectories();
     }
 
-    private void DestroyTrajectories()
+        private void DestroyTrajectories()
     {
         foreach (Trajectory traj in mTrajectories)
         {
