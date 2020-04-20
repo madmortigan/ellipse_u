@@ -43,9 +43,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e597e090ae751264ba882b76b897fc4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mMajorRadius: 200
-  mNumberTrajectories: 4
-  mPhase: -1
+  mShapeLineMaterial: {fileID: 2100000, guid: 7acc6493ad183f344ab92c4cdb257d18, type: 2}
   mTrajectoryPrefab: {fileID: 622080453463941731, guid: 59abc7cec085184439a62b1712770cad,
     type: 3}
   mDebugAnchor1Prefab: {fileID: 0}

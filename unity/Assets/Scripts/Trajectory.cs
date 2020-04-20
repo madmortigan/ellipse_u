@@ -45,12 +45,12 @@ public class Trajectory : MonoBehaviour
         CreateMyLineRenderer();
     }
 
-    public void ToggleTrajectoryDraw()
+    public void SetTrajectoryDraw(bool b)
     {
         LineRenderer lineRen = gameObject.GetComponent<LineRenderer>();
         if (lineRen == null)
             return;
-        lineRen.enabled = !lineRen.enabled;
+        lineRen.enabled = b;
     }
 
 
@@ -67,13 +67,13 @@ public class Trajectory : MonoBehaviour
 
         gameObject.AddComponent<LineRenderer>();
         lren = gameObject.GetComponent<LineRenderer>();
-        
+
         Vector3[] pts = CreatePoints();
         lren.positionCount = pts.Length;
         lren.SetPositions(pts);
         lren.useWorldSpace = false;
         lren.loop = true;
-        
+
         if (mLineMaterial != null)
             lren.material = mLineMaterial;
     }
@@ -84,7 +84,7 @@ public class Trajectory : MonoBehaviour
         Vector3[] pts = new Vector3[npoints];
 
         float delta = 2f * Mathf.PI / npoints;
-        for(int i=0; i<npoints; ++i)
+        for (int i = 0; i < npoints; ++i)
         {
             float t = i * delta;
             Vector3 p = GetLocalPointFromCircleParam(mRadius, t);
@@ -108,18 +108,29 @@ public class Trajectory : MonoBehaviour
     }
 
 
-    private void UpdateDot()
+    public Vector3 GetCurrentPoint()
     {
         float param = mBoss.GetParam();
         float phaseDiff = mPhase * mDelta * (float)mN;
         float t = param + phaseDiff;
         Vector3 p = GetLocalPointFromCircleParam(mRadius, t);
         p = p + transform.position;
-        
-        if (mParticle != null)
-        {
-            mParticle.transform.position = p;
-        }
-
+        return p;
     }
+
+    private void UpdateDot()
+    {
+        if (mParticle == null || !mParticle.activeSelf)
+            return;
+        Vector3 p = GetCurrentPoint();
+        mParticle.transform.position = p;
+    }
+
+    public void SwitchParticleOnOff(bool b)
+    {
+        if (mParticle == null)
+            return;
+        mParticle.SetActive(b);
+    }
+
 }

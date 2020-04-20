@@ -205,9 +205,9 @@ public class CanvasController : MonoBehaviour
         mGame.SetNextParticle();
     }
 
-    public void ToggleDrawTrajectoriesButtonHandler()
+    public void SwitchDrawLinesButtonHandler()
     {
-        mGame.ToggleDrawTrajectories();
+        mGame.SwitchDrawLines();
     }
 
 

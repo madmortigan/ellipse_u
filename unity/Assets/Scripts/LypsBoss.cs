@@ -4,6 +4,14 @@ using UnityEngine;
 
 public class LypsBoss : MonoBehaviour
 {
+    public Material mShapeLineMaterial;
+    private bool mDrawShapeLine = true;
+    public void SetDrawShapeLine(bool b)
+    {
+        mDrawShapeLine = b;
+        UpdateShapeLineVisibility(b);        
+    }
+
     private float mMajorRadius = 200f;
     private float mTrajectoryRadius = 100f;
     private int mNumberTrajectories = 4;
@@ -46,6 +54,7 @@ public class LypsBoss : MonoBehaviour
 
     private float mCurrentParam = -1f;    //animation param ticker
     public float GetParam() { return mCurrentParam; }
+    public void SetParam(float p) { mCurrentParam = p; }
 
     private float mDelta = 0.2f;          //animaton speed
     private float GetDelta() { return mDelta; }
@@ -76,13 +85,23 @@ public class LypsBoss : MonoBehaviour
     private void FixedUpdate()
     {
         UpdateParam();
+        UpdateShapeLine();
     }
 
-    public void ToggleTrajectoriesDraw()
+    public void SetDrawTrajectories(bool b)
     {
         foreach (Trajectory trj in mTrajectories)
-            trj.ToggleTrajectoryDraw();
+            trj.SetTrajectoryDraw(b);
     }
+
+    private void UpdateShapeLineVisibility(bool b)
+    {
+        LineRenderer liner = gameObject.GetComponent<LineRenderer>();
+        if (liner == null)
+            return;
+        liner.enabled = b;
+    }
+
 
 
     void OnDestroy()
@@ -118,6 +137,24 @@ public class LypsBoss : MonoBehaviour
             mCurrentParam = mCurrentParam - 2f * Mathf.PI;
     }
     
+
+    private void UpdateShapeLine()
+    {
+        if (!mDrawShapeLine)
+            return;
+        LineRenderer liner = gameObject.GetComponent<LineRenderer>();
+        if (liner == null)
+            return;
+        if (liner.positionCount != mTrajectories.Length)
+            return;
+
+        for (int i=0; i<liner.positionCount; ++i)
+        {
+            Vector3 p = mTrajectories[i].GetCurrentPoint();
+            liner.SetPosition(i, p);    //not efficient to set positions individual!
+        }
+    }
+
 
     // Local point wth is centre origin, forward is +Z
     // t is in radians [0,2PI)
@@ -172,7 +209,56 @@ public class LypsBoss : MonoBehaviour
             mTrajectories[i] = traj;
         }
 
+        CreateShapeLineRenderer();
+
         mCurrentParam = 0f;
+    }
+
+    public void SwitchParticlesOnOff(bool b)
+    {
+        if (mTrajectories == null)
+            return;
+        foreach(Trajectory trj in mTrajectories)
+        {
+            trj.SwitchParticleOnOff(b);
+        }
+    }
+
+    private void CreateShapeLineRenderer()
+    {
+        LineRenderer lren = GetComponent<LineRenderer>();
+        if (lren != null)
+            Destroy(lren);
+
+        //if (mBoss.GetNumTrajectories() > 1000)
+        //    return;
+
+        gameObject.AddComponent<LineRenderer>();
+        lren = gameObject.GetComponent<LineRenderer>();
+
+        Vector3[] pts = CreatePoints();
+        if (pts == null)
+            return;
+        lren.positionCount = pts.Length;
+        lren.SetPositions(pts);
+        lren.useWorldSpace = false;
+        lren.loop = true;
+
+        if (mShapeLineMaterial != null)
+            lren.material = mShapeLineMaterial;
+    }
+
+    private Vector3[] CreatePoints()
+    {
+        if (mTrajectories == null)
+            return null;
+        Vector3[] pts = new Vector3[mTrajectories.Length];
+        for(int i=0; i<mTrajectories.Length; ++i)
+        {
+            Vector3 p = mTrajectories[i].GetCurrentPoint();
+            pts[i] = p;
+        }
+        return pts;
     }
 
 }

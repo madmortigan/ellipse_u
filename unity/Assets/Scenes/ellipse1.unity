@@ -484,7 +484,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1119022379}
-        m_MethodName: ToggleDrawTrajectoriesButtonHandler
+        m_MethodName: SwitchDrawLinesButtonHandler
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2871,7 +2871,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mMajorRadius: 100
-  mTrajectoryRadius: 170
+  mTrajectoryRadius: 30
   mNumberTrajectories: 4
   mPhase: -3
   mSpeed: 0.8
