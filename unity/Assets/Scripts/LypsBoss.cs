@@ -246,6 +246,16 @@ public class LypsBoss : MonoBehaviour
         }
     }
 
+    public void SwitchAttachParticlesOnOff(bool b)
+    {
+        if (mTrajectories == null)
+            return;
+        foreach (Trajectory trj in mTrajectories)
+        {
+            trj.SwitchAttachParticleOnOff(b);
+        }
+    }
+
     private void CreateShapeLineRenderer()
     {
         LineRenderer lren = GetComponent<LineRenderer>();

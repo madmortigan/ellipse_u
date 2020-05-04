@@ -3,3 +3,9 @@ unity/Logs
 unity/Packages
 unity/Temp
 unity/Builds
+unity/obj
+unity/.vs
+unity/*.csproj
+unity/unity.sln
+
+

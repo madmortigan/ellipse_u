@@ -259,6 +259,11 @@ public class CanvasController : MonoBehaviour
         mGame.TogglePlayPause();
     }
 
+    public void AttachParticlesButtonHandler()
+    {
+        mGame.SwitchAttachParticles();
+    }
+
 
     public void QuitButtonHandler()
     {

@@ -42,6 +42,7 @@ public class EllipseGame : MonoBehaviour
     public float mSpeed = 1f;
     public GameObject mBossPrefab;
     public GameObject[] mParticlePrefab;
+    public bool mAttachParticles = true;
     public GameObject mCanvasGO;
 
     private LypsBoss mBoss;
@@ -128,6 +129,8 @@ public class EllipseGame : MonoBehaviour
 
         bool drawShapeLine = GetDrawShapeLine();
         mBoss.SetDrawShapeLine(drawShapeLine);
+
+        mBoss.SwitchAttachParticlesOnOff(mAttachParticles);
 
         SetupCamera();
     }
@@ -245,6 +248,12 @@ public class EllipseGame : MonoBehaviour
         if (iMode > lastMode)
             iMode = 0;
         SetDrawLinesMode((DrawLinesEnum)iMode);
+    }
+
+    public void SwitchAttachParticles()
+    {
+        mAttachParticles = !mAttachParticles;
+        mBoss.SwitchAttachParticlesOnOff(mAttachParticles);
     }
 
 }

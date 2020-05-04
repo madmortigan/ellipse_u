@@ -58,13 +58,21 @@ public class Trajectory : MonoBehaviour
     {
         mN = nth;
         mBoss = boss;
-        mParticle = part;
+
+        SetupParticle(part);
 
         mDelta = mBoss.GetTrajectoryDelta();
         mPhase = mBoss.GetPhase();
         mRadius = mBoss.GetTrajectoryRadius();
 
         CreateMyLineRenderer();
+    }
+
+    private void SetupParticle(GameObject part)
+    {
+        mParticle = part;
+        TrajectoryParticle tPart = part.AddComponent<TrajectoryParticle>();
+        tPart.Setup(this);
     }
 
     public void SetTrajectoryDraw(bool b)
@@ -144,8 +152,9 @@ public class Trajectory : MonoBehaviour
     {
         if (mParticle == null || !mParticle.activeSelf)
             return;
-        Vector3 p = GetCurrentPoint();
-        mParticle.transform.position = p;
+
+        //Vector3 p = GetCurrentPoint();
+        //mParticle.transform.position = p;
     }
 
     public void SwitchParticleOnOff(bool b)
@@ -153,6 +162,16 @@ public class Trajectory : MonoBehaviour
         if (mParticle == null)
             return;
         mParticle.SetActive(b);
+    }
+
+    public void SwitchAttachParticleOnOff(bool b)
+    {
+        if (mParticle == null)
+            return;
+        TrajectoryParticle tpe = mParticle.GetComponent<TrajectoryParticle>();
+        if (tpe == null)
+            return;
+        tpe.SetFollowing(b);
     }
 
 }
