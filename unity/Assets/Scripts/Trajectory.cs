@@ -174,4 +174,24 @@ public class Trajectory : MonoBehaviour
         tpe.SetFollowing(b);
     }
 
+    public void SetColourSpreading(Material mat)
+    {
+        if (mParticle == null)
+            return;
+        TrajectoryParticle tpe = mParticle.GetComponent<TrajectoryParticle>();
+        if (tpe == null)
+            return;
+        tpe.SetColourSpreading(mat);
+    }
+
+    public void ResetSpreading()
+    {
+        if (mParticle == null)
+            return;
+        TrajectoryParticle tpe = mParticle.GetComponent<TrajectoryParticle>();
+        if (tpe == null)
+            return;
+        tpe.ResetSpreading();
+    }
+
 }

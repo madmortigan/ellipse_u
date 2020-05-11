@@ -45,6 +45,10 @@ public class EllipseGame : MonoBehaviour
     public bool mAttachParticles = true;
     public GameObject mCanvasGO;
 
+    public Material mSpreadMaterial;
+    private bool mIsSpreading = false;
+    private void ToggleIsSpreading() { mIsSpreading = !mIsSpreading; }
+
     private LypsBoss mBoss;
     private CanvasController mCanvas;
 
@@ -160,6 +164,8 @@ public class EllipseGame : MonoBehaviour
     {
         if (mBoss == null)
             return;
+        mIsSpreading = false;
+
         float currParam = mBoss.GetParam();
         GameObject bossgo = mBoss.gameObject;
         Destroy(bossgo);
@@ -254,6 +260,19 @@ public class EllipseGame : MonoBehaviour
     {
         mAttachParticles = !mAttachParticles;
         mBoss.SwitchAttachParticlesOnOff(mAttachParticles);
+    }
+
+
+    public void ColorSpread()
+    {
+        //starting from a fixed particle for now;
+        if (mSpreadMaterial == null)
+            return;
+        ToggleIsSpreading();
+        if (mIsSpreading)
+            mBoss.ColorSpread(mSpreadMaterial);
+        else
+            mBoss.ResetSpreading();
     }
 
 }

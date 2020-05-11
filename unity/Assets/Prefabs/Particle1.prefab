@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4819062943737564574}
   - component: {fileID: 4819062943737564573}
   - component: {fileID: 4819062943737564572}
+  - component: {fileID: 1752068674464591567}
   - component: {fileID: 4171917384221033758}
   m_Layer: 0
   m_Name: Particle1
@@ -93,6 +94,19 @@ SphereCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!135 &1752068674464591567
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4819062943737564571}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.49999997
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &4171917384221033758
 Rigidbody:

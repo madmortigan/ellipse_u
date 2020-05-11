@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6747579983162055089}
   - component: {fileID: 6747579983162055088}
   - component: {fileID: 6747579983162055087}
+  - component: {fileID: 5640353597086222612}
   - component: {fileID: 4952599928578865560}
   m_Layer: 0
   m_Name: ParticleCube
@@ -90,6 +91,19 @@ BoxCollider:
   m_GameObject: {fileID: 6747579983162055086}
   m_Material: {fileID: 13400000, guid: 5adc492af7ffc394aa084f25d9741881, type: 2}
   m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!65 &5640353597086222612
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6747579983162055086}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}

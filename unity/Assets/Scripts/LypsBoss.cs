@@ -293,4 +293,25 @@ public class LypsBoss : MonoBehaviour
         return pts;
     }
 
+
+    public void ColorSpread(Material mat)
+    {
+        if (mTrajectories == null || mTrajectories.Length < 1)
+            return;
+
+        mTrajectories[0].SetColourSpreading(mat);   //bgDEBUG rename!
+    }
+
+    public void ResetSpreading()
+    {
+        if (mTrajectories == null || mTrajectories.Length < 1)
+            return;
+
+        for (int i = 0; i < mTrajectories.Length; ++i)
+        {
+            mTrajectories[i].ResetSpreading();
+        }
+
+    }
+
 }

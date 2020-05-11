@@ -280,6 +280,12 @@ public class CanvasController : MonoBehaviour
             LaunchAboutBox();
     }
 
+    public void ColorSpreadButtonHandler()
+    {
+        mGame.ColorSpread();
+    }
+
+
     //button in AboutBox canvas.
     public void CloseAboutButtonHandler()
     {

@@ -28,6 +28,21 @@ public class TrajectoryParticle : MonoBehaviour
 {
     private Trajectory mTrajectory;
 
+    private Collider mColliderPhys;         //non-trigger collider
+    private void SwitchColliderPhys(bool b)
+    {
+        if (mColliderPhys!= null)
+            mColliderPhys.enabled = b;
+    }
+    private Collider mColliderTrigger;     //trigger collider
+    private void SwitchColliderTrigger(bool b)
+    {
+        if (mColliderTrigger != null)
+            mColliderTrigger.enabled = b;
+    }
+
+
+
     private bool mFollowing = true;
     public void SetFollowing(bool b)
     {
@@ -35,10 +50,58 @@ public class TrajectoryParticle : MonoBehaviour
         ResetParticlePhysics(mFollowing);
     }
 
+
+    Material mOriginalMaterial;
+    void SetSpreadMaterial(Material mat)
+    {
+        if (mat == null)
+            return;
+        Renderer rend = GetComponent<Renderer>();
+        if (rend == null)
+            return;
+        rend.material = mat;
+    }
+
+    public void SetColourSpreading(Material mat)
+    {
+        SetSpreadMaterial(mat);
+    }
+    public void ResetSpreading()
+    {
+        SetSpreadMaterial(mOriginalMaterial);    
+    }
+
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        StartSetupColliders();
+        StartSetupMaterial();
+    }
+
+    private void StartSetupColliders()
+    {
+        Collider[] colls = GetComponents<Collider>();
+        if (colls == null || colls.Length < 2)
+            return;
+        Physics.IgnoreCollision(colls[0], colls[1]);
+        if (colls[0].isTrigger)
+        {
+            mColliderTrigger = colls[0];
+            if (!colls[1].isTrigger)
+                mColliderPhys = colls[1];
+        }
+        else if (colls[1].isTrigger)
+        {
+            mColliderTrigger = colls[1];
+            if (!colls[0].isTrigger)
+                mColliderPhys = colls[0];
+        } 
+    }
+
+    private void StartSetupMaterial()
+    {
+        mOriginalMaterial = GetCurrentMaterial();
     }
 
     // Update is called once per frame
@@ -54,6 +117,27 @@ public class TrajectoryParticle : MonoBehaviour
     public void Setup(Trajectory traj)
     {
         mTrajectory = traj;
+        transform.position = traj.GetCurrentPoint();
+    }
+
+
+    private Material GetCurrentMaterial()
+    {
+        Renderer rend = GetComponent<Renderer>();
+        if (rend == null)
+            return null;
+        Material mat = rend.material;
+        if (mat == null)
+            return null;
+        return mat;
+    }
+
+    public Material GetSpreadMaterial()
+    {
+        Material curmat = GetCurrentMaterial();
+        if (curmat == mOriginalMaterial)
+            return null;
+        return curmat;
     }
 
     //If following, physics need to be off; and vice versa
@@ -71,6 +155,7 @@ public class TrajectoryParticle : MonoBehaviour
         if (rb == null)
             return;
         rb.isKinematic = false;
+        SwitchColliderPhys(true);
     }
 
     private void DisableParticlePhysics()
@@ -80,7 +165,7 @@ public class TrajectoryParticle : MonoBehaviour
             return;
 
         rb.isKinematic = true;
-        //rb.useGravity = false;
+        SwitchColliderPhys(false);
     }
 
     private void UpdateFollowing()
@@ -89,4 +174,34 @@ public class TrajectoryParticle : MonoBehaviour
         Vector3 q = transform.position;
         transform.position = Vector3.Lerp(p, q, 0.9f);
     }
+
+
+    private Material GetSpreadMaterial(GameObject go)
+    {
+        TrajectoryParticle tPart = go.GetComponent<TrajectoryParticle>();
+        if (tPart == null)
+            return null;
+        return tPart.GetSpreadMaterial();
+    }
+
+    private void SpreadMaterial(GameObject other)
+    {
+        Material mat = GetSpreadMaterial(other);
+        if (mat == null)
+            return;
+        SetSpreadMaterial(mat);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        //Debug.Log("On TRIGGER Enter:: SpreadColour");
+        SpreadMaterial(other.gameObject);
+    }
+
+
+
+    private void OnCollisionEnter(Collision collision)
+    {
+    }
+
 }
