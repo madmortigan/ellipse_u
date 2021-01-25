@@ -1,7 +1,9 @@
 # ellipse_u
 Unity project for ellipse project
 
-Unity port of the ellipse project. 
+Unity port of the ellipse project. Original ellipse project for javascript/html: https://github.com/madmortigan/ellipse 
+
+Free download for Android from Google Play: https://play.google.com/store/apps/details?id=com.BigBadBobGames.EllipseProject
 
 Currently using Unity version 2018.4.20f1 (LTS)
 
